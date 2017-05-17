@@ -1,0 +1,7 @@
+---
+- hosts: kafka-nodes
+  pre_tasks:
+       - name: Ensure Kafka tar is downloaded
+         get_url:
+            url: "http://mirrors.koehn.com/apache/kafka/0.10.2.1/kafka_2.10-0.10.2.1.tgz"
+            dest: "/tmp"      

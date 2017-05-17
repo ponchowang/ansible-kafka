@@ -1,0 +1,7 @@
+---
+- hosts: kafka-nodes
+  roles:
+    - {
+        role: ansible-java, jdk_version: '8',
+        when: accept_oracle_licence
+      }

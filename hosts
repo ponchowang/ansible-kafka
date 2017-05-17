@@ -1,6 +1,0 @@
-[zookeepers]
-10.0.0.30 zookeeper_id=1 ansible_user=root
-
-[kafka-nodes]
-10.0.0.31 kafka_broker_id=1 kafka_hostname=10.0.0.31 ansible_user=root
-10.0.0.32 kafka_broker_id=2 kafka_hostname=10.0.0.32 ansible_user=root

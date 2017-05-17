@@ -11,13 +11,26 @@
 
 set -e
 
-export JAVA_HOME=/usr/lib/jvm/{{ installed_java_version }}
+export JAVA_HOME
 export SCALA_VERSION={{ kafka.scala_version }}
 export KAFKA_HOME={{ kafka.install_dir }}/kafka
 
 # /etc/init.d/kafka: start and stop the Kafka daemon
 
 . /lib/lsb/init-functions
+
+checkJava() {
+	if [ -x "$JAVA_HOME/bin/java" ]; then
+		JAVA="$JAVA_HOME/bin/java"
+	else
+		JAVA=`which java`
+	fi
+
+	if [ ! -x "$JAVA" ]; then
+		echo "Could not find any executable java binary. Please install java in your PATH or set JAVA_HOME"
+		exit 1
+	fi
+}
 
 # Are we running from init?
 run_by_init() {
@@ -28,6 +41,8 @@ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 case "$1" in
   start)
+	checkJava
+	
 	log_daemon_msg "Starting Kafka" "kafka" || true
         "$KAFKA_HOME/bin/kafka-server-start.sh" "-daemon" "$KAFKA_HOME/config/{{ kafka.server_properties }}"
         log_end_msg 0 || true

@@ -1,0 +1,8 @@
+---
+- include: java.yml
+  when: kafka_java_install
+  tags:
+      - java
+
+- include: Debian.yml
+  when: ansible_os_family == "Debian"
